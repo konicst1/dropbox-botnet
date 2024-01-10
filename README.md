@@ -14,7 +14,7 @@ This is a Python-based botnet script for controllers and bots, utilizing Dropbox
 
 Run the following command to install necessary packages:
 
-pip install stegano schedule dropbox
+`pip install stegano schedule dropbox`
 
 #### Dropbox App Setup
 1. Set up permissions for the Dropbox app (`file.content.write/read`).
