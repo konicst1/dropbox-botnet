@@ -42,14 +42,6 @@ Run the following command to install necessary packages:
 1. **Run the scripts**
 2. **Enter commands**: Enter commands to running controller CLI, keep the commands in one line.
 
-### Code Structure
-Below is an overview of the main components of the script:
-
-- **Dropbox Initialization**: Setting up Dropbox access and defining folder paths.
-- **ID Management**: Functions for handling ID registration and updates.
-- **Command Handling**: Functions to upload and download commands and responses.
-- **Scheduled Tasks**: Routine tasks are scheduled to check for new commands, process responses, and maintain the bot's "aliveness".
-
 ### Running the Script
 - **Insert your access token**
 - Simply run the controller and the client scripts. Kindly note that the client script runs the best on Linux machines.
