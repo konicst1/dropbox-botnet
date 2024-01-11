@@ -39,8 +39,8 @@ Run the following command to install necessary packages:
 
 ### Usage
 
-1. **Bot Registration**: After the bot comes alive, it registers a new ID for identification.
-2. **Communication**: Communication is held using pictures of plumeria. Messages are transferred in these images using steganography.
+1. **Run the scripts**
+2. **Enter commands**: Enter commands to running controller CLI, keep the commands in one line.
 
 ### Code Structure
 Below is an overview of the main components of the script:
